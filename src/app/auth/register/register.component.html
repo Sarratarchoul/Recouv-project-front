@@ -1,0 +1,105 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-6">
+          <img src="../../../assets/images/rec.jpg" height="100%" width="100%">
+      </div>
+      <div class="col-md-6 mt-3 mb-2">
+          <h1 class="text-info text-center container"><b><strong>Inscription </strong> </b></h1>
+          <div [hidden]="submitted" >  
+            <form [formGroup]="utilisateursaveform"  (ngSubmit)="addUtilisateur()">  
+              <div class="form-group row col-md-12">
+                <div class="form-group col-md-6">  
+                    <label for="name"> Nom </label>  
+                    <input type="text" class="form-control" nbInput fullWidth status="info" formControlName="nom" data-toggle="tooltip"   
+                       data-placement="right" title="Entere Nom Utilisateur" >  
+                    <div class="alert alert-danger" *ngIf = "(UtilisateurNom?.touched) && (UtilisateurNom?.invalid)"   
+                      style="margin-top: 5px;">  
+                        <span *ngIf="UtilisateurNom?.errors?.['required']">Nom est nécessaire</span>  
+                          <span *ngIf = "UtilisateurNom?.errors?.['minlength']">   
+                              MinLength Error   
+                          </span>                     
+                      </div>  
+                </div>  
+                <div class="col-md-6 form-group">   
+                  <label for="name"> Prénom </label>  
+                  <input type="text" class="form-control" nbInput fullWidth status="info" formControlName="prenom" data-toggle="tooltip"   
+                     data-placement="right" title="Entere Prenom Utilisateur" >  
+                  <div class="alert alert-danger" *ngIf = "(UtilisateurPrenom?.touched) && (UtilisateurPrenom?.invalid)"   
+                    style="margin-top: 5px;">  
+                      <span *ngIf="UtilisateurPrenom?.errors?.['required']">Prénom est nécessaire</span>  
+                        <span *ngIf = "UtilisateurPrenom?.errors?.['minlength']">   
+                            MinLength Error   
+                        </span>                     
+                    </div>  
+              </div>  
+                <div class="col-md-12 form-group"> 
+                    <label for="name"> Email </label>  
+                    <input type="text" class="form-control" formControlName="email"   nbInput fullWidth status="info"
+                      data-toggle="tooltip" data-placement="right" title="Entrer Utilisateur Email">  
+                      <div class="alert alert-danger" *ngIf = "(UtilisateurEmail?.touched) && (UtilisateurEmail?.invalid)"   
+                      style="margin-top: 5px;">  
+                        <span *ngIf="UtilisateurEmail?.errors?.['required']">Email est nécessaire</span>  
+                          <span *ngIf = "UtilisateurEmail?.errors?.['email']">   
+                              Invalid Email Format   
+                          </span>                     
+                      </div>  
+                </div>  
+          
+                <div class="col-md-12 form-group">  
+                    <label for="name"> Role </label>  
+                      <select class="form-control" formControlName="role" data-toggle="tooltip"   
+                            data-placement="right" title="Select Utilisateur Role">  
+                          <option value="null">--Select Role--</option>  
+                          <option value="ADMINISTRATEUR">ADMINISTRATEUR</option>
+                        <option value="COMMERCIAL">COMMERCIAL</option>  
+                        <option value="CHARGERECOUVREMENT">CHARGE RECOUVREMENT</option>  
+                        <option value="CREDITMANAGER">CREDIT MANAGER</option>   
+                      </select>  
+                </div>  
+                <div class="col-md-12 form-group">  
+                  <label for="name"> Téléphone </label>  
+                  <input type="text" class="form-control"  formControlName="telephone" nbInput fullWidth status="info" data-toggle="tooltip"   
+                     data-placement="right" title="Entrer Telephone Utilisateur" >  
+                  <div class="alert alert-danger" *ngIf = "(UtilisateurTelephone?.touched) && (UtilisateurTelephone?.invalid)"   
+                    style="margin-top: 5px;">  
+                      <span *ngIf="UtilisateurTelephone?.errors?.['required']">Telephone est nécessaire</span>  
+                        <span *ngIf = "UtilisateurTelephone?.errors?.['minlength']">   
+                            MinLength Error   
+                        </span>                     
+                    </div>  
+              </div> 
+              <div class="col-md-6 form-group">  
+                <label for="name"> Mot de passse </label>  
+                <input type="text" class="form-control"  formControlName="password" nbInput fullWidth status="info" data-toggle="tooltip"   
+                   data-placement="right" title="Entere Password Utilisateur" >  
+                <div class="alert alert-danger" *ngIf = "(UtilisateurPassword?.touched) && (UtilisateurPassword?.invalid)"   
+                  style="margin-top: 5px;">  
+                    <span *ngIf="UtilisateurPassword?.errors?.['required']">Password est nécessaire</span>  
+                      <span *ngIf = "UtilisateurPassword?.errors?.['minlength']">   
+                          MinLength Error   
+                      </span>                     
+                  </div>  
+            </div> 
+            <div class="col-md-6 form-group">
+              <label for="name"> Confirmer le mot de passe </label>  
+                <input type="password" formControlName="pwdd" class="form-control">
+                  <span class="form-bar"></span>
+              </div>
+              <div class="col-md-12 form-group">
+                <label for="name"> Télécharger une image </label>
+                <input type="file" class="form-control" accept="image/*" (change)="onSelectFile($event)">
+                <img [src]="imgURL" height="100" *ngIf="imgURL">
+            </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button routerLink="/" type="submit" class="btn btn-info btn-block">S'inscrire</button>  
+            </div>
+            <div>
+                <a routerLink="/" class="text-primary" style="text-decoration: none;">Connexion? </a>
+              </div>
+            </form>  
+        </div>  
+      </div>
+  </div>
+</div>
+

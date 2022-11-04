@@ -1,0 +1,240 @@
+<h1 style="text-align: center"><strong>Liste des relances</strong></h1><br>
+<div class="container" *ngIf="flag">
+  <input (change)="selectFile($event)" type="file" />
+<button (click)="uploadFile()" class="btn" mat-raised-button color="primary"><i class="fa fa-upload"></i>Importer</button>
+</div>
+<div class="container" *ngIf="!flag">
+<h2>Veuillez attendre....</h2>
+<h2>Le téléchargement..</h2>
+</div>
+<nb-card>
+  <nb-card-body>
+<div class="panel panel-default">  
+    <div class="panel-heading">   
+        <div class="row" [hidden]="!deleteMessage">  
+               
+                  <div class="col-sm-4"></div>  
+                  <div class="col-sm-4">  
+                          <div class="alert alert-info alert-dismissible">  
+                                  <button type="button" class="close" data-dismiss="alert">×</button>  
+                                  <strong>Relance Supprimé</strong>  
+                          </div>  
+                  </div>  
+                  <div class="col-sm-4"></div>  
+          </div>             
+      </div>  
+    
+      
+    <div class="panel-body">  
+        <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  
+        [dtTrigger]="dtTrigger"  >  
+            <thead class="thead-light">  
+                <tr>  
+                    <th>Date de l'action</th>
+                    <th>Type d'action</th>
+                    <th>Action</th>  
+                    <th>Montant de l'action</th>  
+                    <th>Code Client</th>   
+                    <th>
+                      <a class="btn btn-dark text-white" data-toggle="modal" data-target="#addRelance" type="submit" ><i class="fa fa-plus-square"></i> Ajouter </a>
+                    </th>  
+                </tr>  
+            </thead>  
+            <tbody>  
+                 <tr *ngFor="let relance of relances">  
+                    <td>{{relance.date_action}}</td>  
+                    <td><span class="mode mode_on">{{relance.type_action}}</span></td>
+                    <td>{{relance.action}}</td>  
+                    <td>{{relance.montant_action | currency:'DT'}}</td>  
+                    <td><span class ="blue"><a (click)="onGetRelancesClient(relance.idclient)" class="clickable" data-toggle="modal" data-target="#getRelancesClient">{{relance.idclient}}</a></span></td>  
+                    <td><button (click)="deleteRelance(relance.idR)" class='btn btn-danger'><i class="fa fa-trash fa-lg"></i></button>   
+                      <button (click)="editRelance(relance)"  class='btn btn-primary'   data-toggle="modal" data-target="#editRelance"><i class="fa fa-pencil fa-lg">
+
+                      </i>
+
+                       </button>  
+                    </td>  
+                  </tr>   
+            </tbody><br>  
+        </table>  
+    </div>  
+  </div>   
+  <!-- Relances client modal -->
+  <div class="modal fade bd-example-modal-xl" id="getRelancesClient"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel"><strong> Détail Client</strong></h2>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="clientss">
+          <div class="form-group row col-md-12">
+            <div class="col-md-6 form-group"> 
+            <label><b>Nom: </b></label> <li>{{clientss.nom_client}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>Senario relance: </b></label> <li>{{clientss.senario_relance}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>Adresse: </b></label> <li>{{clientss.adresse_client}}</li>
+          </div> 
+          <div class="col-md-6 form-group"> 
+            <label><b>Email: </b></label> <li>{{clientss.email}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>Profil payeur: </b></label>  <li [ngClass]="{
+              'bon' : clientss.profil_payeur == 'Bon payeur',
+              'mauvais' : clientss.profil_payeur == 'Mauvais payeur',
+              'correct' : clientss.profil_payeur == 'Payeur correct',
+              'retards' : clientss.profil_payeur == 'Retards inadmissibles',
+              'tres' : clientss.profil_payeur == 'Très bon payeur'
+            }" >{{clientss.profil_payeur}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>N° téléphone: </b></label> <li>{{clientss.numTel}}</li>
+          </div> 
+          <div class="col-md-6 form-group"> 
+            <label><b>Personne contact: </b></label> <li>{{clientss.personne_contact}}</li>
+          </div>  
+          <div class="col-md-6 form-group"> 
+            <label><b>Groupe: </b></label> <li>{{clientss.nom_groupe}}</li>
+          </div> 
+          <div class="col-md-12 form-group"> 
+            <label><b>Moyen de paiement: </b></label> <li>{{clientss.moyen_de_paiement}}</li>
+          </div> 
+        </div>
+        </div>
+        <h2>Tableau de relances</h2>
+        <div class="panel-body">  
+          <table  class="table table-hover table-sm" datatable  [dtOptions]="dtOptions"  
+          [dtTrigger]="dtTriggerc">  
+              <thead class="thead-light">  
+                  <tr>  
+                      <th>Date de l'action</th>
+                      <th>Type d'action</th>
+                      <th>Action</th>  
+                      <th>Montant de l'action</th>     
+                  </tr>  
+              </thead>  
+              <tbody>  
+                   <tr *ngFor="let relance of relancess">  
+                      <td>{{relance.date_action}}</td>  
+                      <td><span class="mode mode_on">{{relance.type_action}}</span></td>
+                      <td>{{relance.action}}</td>  
+                      <td>{{relance.montant_action | currency:'TND':'symbol':'0.0'}}</td>     
+                    </tr>   
+              </tbody><br>  
+          </table>  
+       </div> 
+         
+     </div>   
+
+      
+    </div>
+  </div>
+</div>
+    <!-- Add relance modal -->
+  <div class="modal fade" id="addRelance" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Ajouter une nouvelle relance</h2>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+            <form [formGroup]="relDetail">
+              <input  type="hidden"  class="form-control" formControlName="code_client" id="code_client" >
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Date action </label>
+                    <input type="date" formControlName="date_action" nbInput fullWidth status="info" class="form-control" id="date_action" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Type action </label>
+                    <input type="text" formControlName="type_action" nbInput fullWidth status="info" class="form-control" id="type_action" aria-describedby="emailHelp">
+                  </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Action </label>
+                  <input type="text" formControlName="action" nbInput fullWidth status="info" class="form-control" id="action" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Montant action </label>
+                    <div class="input-group mb-3">  
+                    <span class="input-group-text">TND</span> 
+                    <input type="text" formControlName="montant_action"  class="form-control" id="montant_action" aria-describedby="emailHelp">
+                  </div>
+                </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Code client </label>
+                    <select name="client" class="form-control"  formControlName="idclient" id="idclient" >
+                    <option value="0">-Select-</option>
+                    <option *ngFor="let client of this.ClientList" value="{{client.code_client}}">{{client.code_client}}</option>
+                    </select>   
+                  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addRelance()">Ajouter</button>
+                  </div>
+              </form>
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit relance modal -->
+  <div class="modal fade" id="editRelance" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Modifier Relance</h2>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <form [formGroup]="relDetail">
+              <input  type="hidden"  class="form-control" formControlName="code_client" id="code_client" >
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Date action </label>
+                    <input type="date" formControlName="date_action" nbInput fullWidth status="info" class="form-control" id="date_action" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Type action </label>
+                    <input type="text" formControlName="type_action" nbInput fullWidth status="info" class="form-control" id="type_action" aria-describedby="emailHelp">
+                  </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Action </label>
+                  <input type="text" formControlName="action" nbInput fullWidth status="info" class="form-control" id="action" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Montant action </label>
+                    <div class="input-group mb-3">  
+                    <span class="input-group-text">TND</span> 
+                    <input type="text" formControlName="montant_action" status="info" class="form-control" id="montant_action" aria-describedby="emailHelp">
+                    </div>
+                </div>  
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Code client </label>
+                    <select class="form-control"  formControlName="idclient" id="idclient" required>
+                    <option *ngFor="let client of ClientList" value="{{client.code_client}}">{{client.code_client}}</option>
+                    </select>   
+                  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="updateRelance()" data-dismiss="modal">Mise à jour</button>
+                  </div>
+              </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+      </nb-card-body>
+    </nb-card>
+    <div class="container" >
+      <a class="btn btn-success text-white" (click)="exporToExcel()">
+        <i class="fa fa-download"></i> Télécharger </a>
+    </div>

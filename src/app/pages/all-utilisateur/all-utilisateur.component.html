@@ -1,0 +1,193 @@
+<h1 style="text-align: center"><strong>Liste des utilisateurs</strong></h1><br> 
+<!--<button routerLink="/pages/all-utilisateurs" type="button" class="btn btn-secondary btn-lg btn-block">Historique Utilisateurs</button> 
+--><nb-card>
+  <nb-card-body>
+<div class="panel panel-default">  
+    <div class="panel-heading">   
+        <div class="row" [hidden]="!deleteMessage">  
+               
+                  <div class="col-sm-4"></div>  
+                  <div class="col-sm-4">  
+                          <div class="alert alert-info alert-dismissible">  
+                                  <button type="button" class="close" data-dismiss="alert">×</button>  
+                                  <strong>Utilisateur Supprimé</strong>  
+                          </div>  
+                  </div>  
+                  <div class="col-sm-4"></div>  
+          </div>             
+      </div>  
+    
+      
+    <div class="panel-body">  
+        <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  
+        [dtTrigger]="dtTrigger"  >  
+            <thead class="thead-light">  
+                <tr>  
+                    <th>Image</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>  
+                    <th>Email</th>  
+                    <th>Role</th>  
+                    <th>Telephone</th>
+                    <th>Actif</th>
+                    <th>Action</th>  
+                      
+                </tr>  
+            </thead>  
+            <tbody>  
+                 <tr *ngFor="let utilisateur of utilisateurs">  
+                  <td><a href="#"><img class="card-img-top img-responsive"
+                    src = "{{this.utilisateurservice.host+'/utilisateur/ImgUsers/'+utilisateur.id_utilisateur}}" 
+                    style = "height :60px;width:60px"
+                   alt=""></a></td> 
+                    <td>{{utilisateur.nom}}</td>  
+                    <td>{{utilisateur.prenom}}</td>  
+                    <td>{{utilisateur.email}}</td>  
+                    <td>{{utilisateur.role}}</td>  
+                    <td>{{utilisateur.telephone}}</td>  
+                    <td>
+                      <span 
+                      class ="dot" [ngClass]="{
+                        'dot-green' : utilisateur.actif == true,
+                        'dot-red' : utilisateur.actif == false
+                        }"></span></td> 
+                    <td>
+                      <button (click)="editUtilisateur(utilisateur)" class='btn btn-secondary' data-toggle="modal" data-target="#ModifPassword"><i class="fa fa-lock fa-lg"></i></button>          
+                      <button (click)="editUtilisateur(utilisateur)" class='btn btn-primary'   data-toggle="modal" data-target="#editUtilisateur"><i class="fa fa-pencil fa-lg">
+                    </i> </button>  
+                    <button (click)="editUtilisateur(utilisateur)" class='btn btn-danger' data-toggle="modal" data-target="#suppUtilisateur"><i class="fa fa-trash fa-lg"></i></button>
+                     
+                  </td>  
+                  </tr>   
+            </tbody><br>  
+        </table>  
+    </div>  
+  </div>   
+    
+  
+  <!-- Edit utilisateur modal -->
+  <div class="modal fade" id="editUtilisateur" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel"><strong>Modifier l'utilisateur</strong></h2>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="utiDetail">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Prénom </label>
+                    <input type="text" formControlName="prenom" nbInput fullWidth status="info" class="form-control" id="prenom" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Nom </label>
+                    <input type="text" formControlName="nom" nbInput fullWidth status="info" class="form-control" id="nom" aria-describedby="emailHelp">
+                  </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email </label>
+                  <input type="email" formControlName="email" nbInput fullWidth status="info" class="form-control" id="email" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Téléphone </label>
+                    <input type="text" formControlName="telephone" nbInput fullWidth status="info" class="form-control" id="telephone" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Role </label>
+                    <select class="form-control" formControlName="role" required>                                     
+                      <option value="COMMERCIAL" [selected]="'COMMERCIAL' == utilisateur.role">COMMERCIAL</option>  
+                      <option value="CHARGERECOUVREMENT" [selected]="'CHARGERECOUVREMENT' == utilisateur.role">CHARGE RECOUVREMENT</option>  
+                      <option value="CREDITMANAGER" [selected]="'CREDITMANAGER' == utilisateur.role" >CREDIT MANAGER</option>    
+                    </select>      
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1" class="form-label">Image </label>
+                    <input type="file" accept="image/*" (change)="onSelectFile($event)" id="image">
+                    <img [src]="imgURL" height="100" *ngIf="imgURL">
+                </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Actif </label>
+                    <div class="form-control">
+                      <label class="radio-inline">
+                        <input type="radio" name="actif" formControlName="actif"  id="actif" value="true" ngModel>
+                        Actif
+                      </label>
+                       
+                      <label class="radio-inline">
+                        <input type="radio" name="actif" formControlName="actif"  id="actif" value="false" ngModel>
+                        Inactif
+                      </label>
+                    </div>
+                     </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="updateUtilisateur()" data-dismiss="modal">Mise à jour</button>
+                  </div>
+              </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Edit utilisateur modal -->
+  <div class="modal fade" id="ModifPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel"><strong>Modifier mot de passe de l'utilisateur</strong></h2>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="utiDetail">
+                  <div class="col-sm-6">
+                    <label for="exampleInputEmail1" class="form-label">Mot de passe </label>
+                    <input type="text" formControlName="password" nbInput fullWidth status="info" class="form-control" id="password" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group form-primary">
+                      <label for="exampleInputEmail1" class="form-label">Confime mot de passe </label>
+                      <input type="password" formControlName="pwdd" nbInput fullWidth status="info" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="Update()" data-dismiss="modal">Mise à jour</button>
+                  </div>
+              </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Edit utilisateur modal -->
+<div class="modal fade" id="suppUtilisateur" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel"><strong>Supprimer l'utilisateur</strong></h2>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="utiDetail"> 
+                <div >
+                  <label class="radio-inline">
+                  <input type="radio" formControlName="supprimer"  id="supprimer" value="true" ngModel> Oui
+                </label>
+              </div>
+                <div >
+                <label class="radio-inline">
+                  <input type="radio" formControlName="supprimer"  id="supprimer" value="false" ngModel> Non
+                </label>
+                   </div>
+                
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                  <button type="button" class="btn btn-outline-primary" (click)="Update()" data-dismiss="modal">Valider</button>
+                </div>
+            </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+      </nb-card-body>
+    </nb-card>

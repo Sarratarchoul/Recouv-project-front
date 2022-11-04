@@ -1,0 +1,116 @@
+<h1 style="text-align: center" class="container"><strong>Créer un nouveau client</strong></h1>  
+<div class="row" >  
+  <div class="col-sm-4"></div>  
+  <nb-card>
+    <nb-card-body>
+  <div class="col-sm-12" >  
+    <div [hidden]="submitted" >  
+      <form [formGroup]="clientsaveform" #addclient (ngSubmit)="addClient(addClient)">   
+        <div class="form-group row col-md-12">
+          <div class="form-group col-md-6"> 
+          <label for="name">Nom</label>  
+          <input type="text" class="form-control" nbInput fullWidth status="info" formControlName="nom_client" data-toggle="tooltip"   
+             data-placement="right" title="Entrer Nom" >  
+      </div>
+      <div class="col-md-6 form-group">  
+            <label for="name">Senario relance</label>  
+              <select class="form-control" formControlName="senario_relance" data-toggle="tooltip"   
+                    data-placement="right" title="Select Senario Relance">  
+                  <option value="null">--Select Senario Relance--</option>  
+                <option value="Client Publics">Client Publics</option>  
+                <option value="Client Risqués">Client Risqués</option>  
+                <option value="Modéles Actions Spécifiques">Modéles Actions Spécifiques</option>   
+                <option value="Scénario De Relance Standard">Scénario De Relance Standard</option>
+              </select>  
+        </div>
+        <div class="col-md-6 form-group">  
+            <label for="name">Adresse</label>  
+            <input type="text" class="form-control" nbInput fullWidth status="info" formControlName="adresse_client" data-toggle="tooltip"   
+               data-placement="right" title="Entrer Adresse" >  
+        </div>
+        <div class="col-md-6 form-group">  
+            <label for="name">Email</label>  
+            <input type="text" class="form-control" formControlName="email"   nbInput fullWidth status="info"
+              data-toggle="tooltip" data-placement="right" title="Entrer l'Email">  
+              <div class="alert alert-danger" *ngIf = "(ClientEmail?.touched) && (ClientEmail?.invalid)"   
+              style="margin-top: 5px;">  
+                <span *ngIf="ClientEmail?.errors?.['required']">Email est Nécessaire</span>  
+                  <span *ngIf = "ClientEmail?.errors?.['email']">   
+                      Invalid Email Format   
+                  </span>                     
+              </div>  
+        </div>  
+        <div class="col-md-6 form-group"> 
+            <label for="name">N° Téléphone</label>  
+            <input type="text" class="form-control" nbInput fullWidth status="info" formControlName="numTel" data-toggle="tooltip"   
+               data-placement="right" title="Entere N° Telephone" >  
+            <div class="alert alert-danger" *ngIf = "(ClientNum?.touched) && (ClientNum?.invalid)"   
+              style="margin-top: 5px;">  
+                <span *ngIf="ClientNum?.errors?.['required']">N° Telephone est Nécessaire</span>  
+                  <span *ngIf = "ClientNum?.errors?.['minlength']">   
+                      MinLength Error   
+                  </span>                     
+              </div>  
+        </div>
+        <div class="col-md-6 form-group">  
+            <label for="name">Personne contact via l'entreprise</label>  
+            <select class="form-control" formControlName="personne_contact" data-toggle="tooltip"   
+                    data-placement="right" title="Select Personne contact">  
+                  <option value="null">--Select personne contact--</option>  
+                <option value="ADMINISTRATEUR">ADMINISTRATEUR</option>  
+                <option value="COMMERCIAL">COMMERCIAL</option>  
+                <option value="CHARGERECOUVREMENT">CHARGE RECOUVREMENT</option>   
+                <option value="CREDITMANAGER">CREDIT MANAGER</option>
+              </select>    
+        </div> 
+        <div class="col-md-6 form-group">  
+            <label for="name">Nom groupe</label>  
+            <input type="text" class="form-control" nbInput fullWidth status="info" formControlName="nom_groupe" data-toggle="tooltip"   
+               data-placement="right" title="Entere Nom de groupe" >  
+            <div class="alert alert-danger" *ngIf = "(ClientNom?.touched) && (ClientNom?.invalid)"   
+              style="margin-top: 5px;">  
+                <span *ngIf="ClientNom?.errors?.['required']">Nom groupe est Nécessaire</span>  
+                  <span *ngIf = "ClientNom?.errors?.['minlength']">   
+                      MinLength Error   
+                  </span>                     
+              </div>  
+        </div>  
+        <div class="col-md-6 form-group">  
+            <label for="name">Moyen de paiement</label>   
+               <select class="form-control" formControlName="moyen_de_paiement" data-toggle="tooltip"   
+                    data-placement="right" title="Select Moyen de paiement">  
+                  <option value="null">--Select Moyen de paiement--</option>  
+                <option value="Chèque">Chèque</option>  
+                <option value="Carte bancaire">Carte bancaire</option>  
+                <option value="Carte VISA">Carte VISA</option>   
+                <option value="Carte Mastercard">Carte Mastercard</option>
+                <option value="Espèce">Espèce</option>
+               </select>  
+        </div>
+      </div>
+          <button type="submit" class="btn btn-primary btn-block">Ajouter</button>  
+        
+      </form>  
+  </div>  
+  </div>  
+
+
+  <div class="col-sm-4"></div>  
+</nb-card-body>
+</nb-card>
+</div>  
+<div class="row">  
+  <div class="col-sm-4"></div>  
+  <div class="col-sm-6">  
+      <div [hidden]="!submitted"> 
+                          <div class="alert alert-info alert-dismissible"  style="text-align: center">  
+                                  <button type="button" class="close" data-dismiss="alert">×</button>  
+                                  <strong>Client Ajouté avec Succés!</strong>  
+                          </div>  
+                  
+         <button (click)="addClientForm()" nbButton outline status="primary">Ajouter un autre Client</button>  
+      </div>        
+  </div>  
+  <div class="col-sm-4"></div>  
+</div>
+

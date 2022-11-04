@@ -1,0 +1,113 @@
+<h1 style="text-align: center"><strong>Créer une nouvelle facture</strong></h1>  
+<form>
+<div class="row" >  
+  <div class="col-sm-4"></div>
+  <nb-card>
+    <nb-card-body>
+  <div class="col-md-12" >  
+    <div [hidden]="submitted" >  
+      <form [formGroup]="facturesaveform" #addfacture (ngSubmit)="addFacture(addFacture)">  
+        <div class="form-group row col-md-12">
+          <div class="col-md-6 form-group">  
+            <label for="name">Date émission</label>  
+            <input type="date" class="form-control"  nbInput fullWidth status="info" formControlName="date_emission" data-toggle="tooltip"   
+               data-placement="right" title="Entrer Date émission" >  
+               </div>
+               <div class="col-md-6 form-group"> 
+            <label for="name">Date échéance</label>  
+            <input type="date" class="form-control"  nbInput fullWidth status="info" formControlName="date_echeance" data-toggle="tooltip"   
+               data-placement="right" title="Entrer Date échéance" >  
+        </div>
+        <div class="col-md-6 form-group">
+        <label for="name">Montant initial</label>  
+        <div class="input-group mb-3">  
+            <span class="input-group-text">TND</span>
+            <input type="text" class="form-control"  formControlName="montant_initial" data-toggle="tooltip" mode="currency" currency="TND" locale="fr"  
+               data-placement="right" title="Entrer Montant initial" >  
+        </div>
+        </div>
+        <div class="col-md-6 form-group">
+        <label for="name">Montant restant</label>
+        <div class="input-group mb-3">    
+            <span class="input-group-text">TND</span>
+            <input type="text" class="form-control"  formControlName="montant_restant" data-toggle="tooltip"  mode="currency" currency="TND" locale="fr" 
+               data-placement="right" title="Entrer Montant restant" >  
+        </div>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="name">Statut</label>  
+              <select class="form-control" formControlName="status" data-toggle="tooltip"   
+                    data-placement="right" title="Select Statut">  
+                  <option value="null">--Select Statut--</option>  
+                <option value="Promesse de règlement">Promesse de règlement</option>  
+                <option value="En cours">En cours</option>  
+                <option value="Contentieux">Contentieux</option>   
+                <option value="Litige">Litige</option>
+                <option value="Litige résolu">Litige résolu</option>
+              </select>    
+        </div>
+        
+        <div class="col-md-6 form-group">
+            <label for="name">Delai paiment</label>  
+            <input type="date" class="form-control" nbInput fullWidth status="info" formControlName="delai_paimentF" data-toggle="tooltip"   
+               data-placement="right" title="Entrer Delai paiment" >  
+        </div> 
+        <div class="col-md-6 form-group">
+        <label for="name">Garantie assureur</label>
+        <div class="input-group mb-3">    
+            <span class="input-group-text">TND</span> 
+            <input type="text" class="form-control"  formControlName="garantie_assureur" data-toggle="tooltip"   
+               data-placement="right" title="Entrer Garantie assureur" >   
+        </div> 
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="name">Autres garanties</label>
+          <div class="input-group mb-3">    
+              <span class="input-group-text">TND</span> 
+              <input type="text" class="form-control"  formControlName="autres_garanties" data-toggle="tooltip"   
+                 data-placement="right" title="Entrer autres garanties" >   
+          </div> 
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label for="name">Limite credit</label>
+            <div class="input-group mb-3">    
+                <span class="input-group-text">TND</span> 
+                <input type="text" class="form-control"  formControlName="limite_credit" data-toggle="tooltip"   mode="currency" currency="TND" locale="fr"
+                   data-placement="right" title="Entere Limite credit" >   
+            </div> 
+            </div>
+        <div class="col-md-6 form-group">  
+          <label for="name">Code client</label>  
+            <select class="form-control" formControlName="idclient" id="idclient"> 
+        <option value="0">-Select-</option>
+        <option *ngFor="let client of ClientList" value="{{client.code_client}}">{{client.code_client}}</option>
+        </select> 
+      </div>
+    </div>
+          <button type="submit" class="btn btn-primary btn-block">Ajouter</button>  
+       
+      </form>  
+  </div>  
+  </div>  
+
+  <div class="col-sm-4"></div>  
+  
+</nb-card-body>
+    </nb-card>
+</div>
+</form>
+<form>  
+<div class="row">  
+  <div class="col-sm-4"></div> 
+
+  <div class="col-sm-6">  
+      <div [hidden]="!submitted">  
+         <h4>Facture Ajouté avec Succés!</h4>  
+         <button (click)="addFactureForm()" nbButton outline status="primary">Ajouter une autre Facture</button>  
+      </div>        
+  </div>  
+  <div class="col-sm-4"></div>  
+
+</div>
+
+</form>

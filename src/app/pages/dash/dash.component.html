@@ -1,0 +1,149 @@
+<!--dash.component.html-->
+<div class="grid-container">
+  <mat-grid-list cols="{{ ( cardLayout | async )?.columns }}" rowHeight="250px">
+    <!--Mini Cards-->
+    <mat-grid-tile *ngFor="let mcc of miniCarddatac" [colspan]="( cardLayout | async )?.miniCard!.cols"
+      [rowspan]="( cardLayout | async )?.miniCard!.rows">
+      
+      <ngx-mini-card icon="signal_cellular_alt" title="Chiffre d'Affaires" [value]="mcc.chiffre_aff" color="secondary" ></ngx-mini-card>
+    </mat-grid-tile>
+    <mat-grid-tile *ngFor="let mcs of miniCarddata" [colspan]="( cardLayout | async )?.miniCard!.cols"
+      [rowspan]="( cardLayout | async )?.miniCard!.rows">
+      
+      <ngx-mini-cards icon="phone" title="Actions de relance à effectuer" [value]="mcs.relance" color="secondary" ></ngx-mini-cards>
+    </mat-grid-tile>
+    <mat-grid-tile *ngFor="let mc of miniCardData" [colspan]="( cardLayout | async )?.miniCard!.cols"
+      [rowspan]="( cardLayout | async )?.miniCard!.rows">
+      
+      <ngx-mini-cardss icon="payments" title="Retard de paiement" [value]="mc.retardsT" color="secondary" ></ngx-mini-cardss>
+    </mat-grid-tile>
+    <!--Charts-->
+    <mat-grid-tile [colspan]="( cardLayout | async )?.chart!.cols" [rowspan]="( cardLayout | async )?.chart!.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>Balance agée
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <ngx-balance-agee-chart></ngx-balance-agee-chart>
+        </mat-card-content>
+      </mat-card>
+   </mat-grid-tile>
+   <mat-grid-tile [colspan]="( cardLayout | async )?.chart!.cols" [rowspan]="( cardLayout | async )?.chart!.rows">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Statuts des pièces
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Expand</button>
+            <button mat-menu-item>Remove</button>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <ngx-status-chart></ngx-status-chart>
+      </mat-card-content>
+    </mat-card>
+ </mat-grid-tile>
+ <mat-grid-tile [colspan]="( cardLayout | async )?.chart!.cols" [rowspan]="( cardLayout | async )?.chart!.rows">
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>Prévision d'encaissements
+        <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item>Expand</button>
+          <button mat-menu-item>Remove</button>
+        </mat-menu>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+      <ngx-prevision-chart></ngx-prevision-chart>
+    </mat-card-content>
+  </mat-card>
+</mat-grid-tile>
+ <mat-grid-tile [colspan]="( cardLayout | async )?.chart!.cols" [rowspan]="( cardLayout | async )?.chart!.rows">
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>Évolution des retards
+        <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item>Expand</button>
+          <button mat-menu-item>Remove</button>
+        </mat-menu>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+      <ngx-evolution-retards-chart></ngx-evolution-retards-chart>
+    </mat-card-content>
+  </mat-card>
+</mat-grid-tile>
+<mat-grid-tile [colspan]="( cardLayout | async )?.chart!.cols" [rowspan]="( cardLayout | async )?.chart!.rows">
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>Évolution du DSO
+        <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item>Expand</button>
+          <button mat-menu-item>Remove</button>
+        </mat-menu>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+      <ngx-dso></ngx-dso>
+    </mat-card-content>
+  </mat-card>
+</mat-grid-tile>
+    <!--Table-->
+    <mat-grid-tile [colspan]="( cardLayout | async )?.tables!.cols" [rowspan]="( cardLayout | async )?.tables!.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>Encours et retards par client
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <app-facture-client-table></app-facture-client-table>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="( cardLayout | async )?.table!.cols" [rowspan]="( cardLayout | async )?.table!.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>Rapport Risque
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+         <app-risque></app-risque>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+ </div>

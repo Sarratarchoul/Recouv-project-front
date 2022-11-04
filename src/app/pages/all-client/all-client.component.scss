@@ -1,0 +1,50 @@
+.mode{
+    padding:4px 10px;
+    line-height: 15px;
+    color:#fff;
+    font-weight: 400;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    font-size:15px;
+    letter-spacing: 0.5px;
+}
+.mauvais {
+    color: red;
+    font-size:15px;
+  }
+  .bon {
+    color: green;
+    font-size:15px;
+  }
+  .tres {
+    color: rgb(0, 208, 255);
+    font-size:15px;
+  }
+  .retards {
+    color: rgb(143, 48, 43);
+    font-size:15px;
+  }
+  .correct {
+    color: rgb(255, 162, 0);
+    font-size:15px;
+  }
+  .blue {
+    color: rgb(0, 76, 255);
+  }
+  .mode_on {
+    background-color: rgb(255, 0, 0);
+  }
+  .mode_onn {
+    background-color: rgb(76, 196, 106);
+  }
+  .mode_of {
+    background-color: rgba(249, 162, 11, 0.992);
+  }
+  .container{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}

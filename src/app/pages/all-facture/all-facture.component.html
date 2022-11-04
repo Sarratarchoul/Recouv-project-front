@@ -1,0 +1,242 @@
+<h1 style="text-align: center"><strong>Liste des factures</strong></h1><br>  
+<div class="container" *ngIf="flag">
+  <input (change)="selectFile($event)" type="file" />
+<button (click)="uploadFile()" class="btn" mat-raised-button color="primary"><i class="fa fa-upload"></i>Importer</button>
+</div>
+<div class="container" *ngIf="!flag">
+<h2>Veuillez attendre....</h2>
+<h2>Le téléchargement..</h2>
+</div>
+<nb-card>
+  <nb-card-body>
+<div class="panel panel-default">  
+    <div class="panel-heading">   
+        <div class="row" [hidden]="!deleteMessage">  
+               
+                  <div class="col-sm-4"></div>  
+                  <div class="col-sm-4">  
+                          <div class="alert alert-info alert-dismissible">  
+                                  <button type="button" class="close" data-dismiss="alert">×</button>  
+                                  <strong>Facture Supprimé</strong>  
+                          </div>  
+                  </div>  
+                  <div class="col-sm-4"></div>  
+          </div>             
+      </div>  
+    
+      
+    <div class="panel-body">  
+        <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  
+        [dtTrigger]="dtTrigger"  >  
+            <thead class="thead-light">  
+                <tr>  
+                    <th>N° Facture</th>
+                    <th>Date émission</th>
+                    <th>Date échéance</th> 
+                    <th>Retards</th> 
+                    <th>Montant initial</th>  
+                    <th>Montant restant</th> 
+                    <th>Limite crédit</th> 
+                    <th>Statut</th> 
+                    <th>Code client</th> 
+                    <th>Action</th> 
+                </tr>  
+            </thead>  
+            <tbody>  
+                 <tr *ngFor="let facture of factures">  
+                    <td>{{facture.num_facture}}</td>  
+                    <td>{{facture.date_emission}}</td>  
+                    <td>{{facture.date_echeance}}</td>
+                    <td><span class="mode mode_on"><!--span class="mode mode_on">{{calculateDiff(facture.date_echeance)}}j</span-->{{facture.retards}}j</span></td>  
+                    <td>{{facture.montant_initial | currency:'TND'}}</td>  
+                    <td>{{facture.montant_restant | currency:'TND'}}</td> 
+                    <td>{{facture.limite_credit | currency:'TND'}}</td>  
+                    <td>{{facture.status}}</td>  
+                    <td><span class ="blue"><a (click)="onGetFacturesClient(facture.idclient)" class="clickable" data-toggle="modal" data-target="#getFacturesClient">{{facture.idclient}}</a></span></td>
+                    <td><button (click)="deleteFacture(facture.num_facture)" class='btn btn-danger' ><i class="fa fa-trash fa-lg"></i></button>   
+                      <button (click)="editFacture(facture)" class='btn btn-primary'   data-toggle="modal" data-target="#editFacture"><i class="fa fa-pencil fa-lg">
+
+                      </i> </button>  
+                    </td>  
+                  </tr>   
+            </tbody><br>  
+        </table>  
+    </div>  
+  </div>   
+     <!-- Factures client modal -->
+  <div class="modal fade bd-example-modal-xl" id="getFacturesClient"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel"><strong>Détail Client</strong></h2>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="clientss">
+          <div class="form-group row col-md-12">
+            <div class="col-md-6 form-group"> 
+            <label><b>Nom: </b></label> <li>{{clientss.nom_client}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>Senario relance: </b></label> <li>{{clientss.senario_relance}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>Adresse: </b></label> <li>{{clientss.adresse_client}}</li>
+          </div> 
+          <div class="col-md-6 form-group"> 
+            <label><b>Email: </b></label> <li>{{clientss.email}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>Profil payeur: </b></label>  <li [ngClass]="{
+              'bon' : clientss.profil_payeur == 'Bon payeur',
+              'mauvais' : clientss.profil_payeur == 'Mauvais payeur',
+              'correct' : clientss.profil_payeur == 'Payeur correct',
+              'retards' : clientss.profil_payeur == 'Retards inadmissibles',
+              'tres' : clientss.profil_payeur == 'Très bon payeur'
+            }" >{{clientss.profil_payeur}}</li>
+          </div>
+          <div class="col-md-6 form-group"> 
+            <label><b>N° téléphone: </b></label> <li>{{clientss.numTel}}</li>
+          </div> 
+          <div class="col-md-6 form-group"> 
+            <label><b>Personne contact: </b></label> <li>{{clientss.personne_contact}}</li>
+          </div>  
+          <div class="col-md-6 form-group"> 
+            <label><b>Groupe: </b></label> <li>{{clientss.nom_groupe}}</li>
+          </div> 
+          <div class="col-md-12 form-group"> 
+            <label><b>Moyen de paiement: </b></label> <li>{{clientss.moyen_de_paiement}}</li>
+          </div> 
+        </div>
+        </div>
+       <h2>Tableau de factures</h2>
+       <div class="panel-body">  
+        <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  
+        [dtTrigger]="dtTriggerf">  
+            <thead class="thead-light">  
+                <tr>  
+                    <th>N° Facture</th>
+                    <th>Date émission</th>
+                    <th>Date échéance</th> 
+                    <th>Retards</th> 
+                    <th>Montant initial</th>  
+                    <th>Montant restant</th> 
+                    <th>Statut</th> 
+                </tr>  
+            </thead>  
+            <tbody>  
+                 <tr *ngFor="let facture of facturess">  
+                    <td>{{facture.num_facture}}</td>  
+                    <td>{{facture.date_emission}}</td>  
+                    <td>{{facture.date_echeance}}</td>
+                    <td class="mode" [ngClass]="{
+                      'mode_on' : facture.retards >= 0,
+                      'mode_onn' : facture.retards <0   
+                    }" >{{facture.retards}}j<!-- <span class="mode mode_on">{{calculateDiff(facture.date_echeance)}}j</span>--></td>
+                    <td>{{facture.montant_initial | currency:'TND':'symbol':'0.0'}}</td>  
+                    <td>{{facture.montant_restant | currency:'TND':'symbol':'0.0'}}</td>  
+                    <td>{{facture.status}}</td>  
+                  </tr>   
+            </tbody><br>  
+        </table>  
+    </div>   
+     </div>   
+
+      
+    </div>
+  </div>
+</div>
+
+  <!-- Edit utilisateur modal -->
+  <div class="modal fade" id="editFacture" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel"><strong>Modifier Facture</strong></h2>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="facDetail">
+              <div class="form-group row col-md-12">
+                <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Date émission </label>
+                    <input type="date" formControlName="date_emission" nbInput fullWidth status="info" class="form-control" id="date_emission" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Date échéance </label>
+                    <input type="date" formControlName="date_echeance" nbInput fullWidth status="info" class="form-control" id="date_echeance" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-md-6 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Montant initial TTC </label>
+                  <div class="input-group mb-3">
+                  <span class="input-group-text">TND</span>
+                  <input type="text" formControlName="montant_initial" class="form-control" id="montant_initial" aria-describedby="emailHelp">
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Montant restant TTC </label>
+                    <div class="input-group mb-3">
+                    <span class="input-group-text">TND</span>
+                    <input type="text" formControlName="montant_restant" class="form-control" id="montant_restant" aria-describedby="emailHelp">
+                  </div>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Statut </label>  
+                    <select class="form-control" formControlName="status" required>                                     
+                      <option value="Promesse de règlement" [selected]="'Promesse de règlement' == facture.status">Promesse de règlement</option>  
+                      <option value="En cours" [selected]="'En cours' == facture.status">En cours</option>  
+                      <option value="Contentieux" [selected]="'Contentieux' == facture.status">Contentieux</option> 
+                      <option value="Litige" [selected]="'Litige' == facture.status" >Litige</option>    
+                      <option value="Litige résolu" [selected]="'Litige résolu' == facture.status" >Litige résolu</option> 
+                    </select>    
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Delai paiment </label>
+                    <input type="date" formControlName="delai_paimentF" nbInput fullWidth status="info" class="form-control" id="delai_paimentF" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Garantie assureur </label>
+                    <div class="input-group mb-3">
+                    <span class="input-group-text">TND</span>
+                    <input type="text" formControlName="garantie_assureur" class="form-control" id="garantie_assureur" aria-describedby="emailHelp">
+                  </div>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Autres garantie </label>
+                  <div class="input-group mb-3">
+                  <span class="input-group-text">TND</span>
+                  <input type="text" formControlName="autres_garanties" class="form-control" id="autres_garanties" aria-describedby="emailHelp">
+                </div>
+               </div>
+               <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Limite crédit </label>
+                    <div class="input-group mb-3">
+                    <span class="input-group-text">TND</span>
+                    <input type="text" formControlName="limite_credit" class="form-control" id="limite_credit" aria-describedby="emailHelp">
+                  </div>
+                </div>
+                <div class="col-md-6 form-group">
+                      <label for="exampleInputEmail1" class="form-label">Code client </label>
+                      <select class="form-control"  formControlName="idclient" id="idclient" required>
+                      <option *ngFor="let client of ClientList" value="{{client.code_client}}">{{client.code_client}}</option>
+                      </select>   
+                  </div>
+              </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="updateFacture()" data-dismiss="modal">Mise à jour</button>
+                  </div>
+              </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+      </nb-card-body>
+    </nb-card>  
+    <div class="container" >
+      <a class="btn btn-success text-white" (click)="exporToExcel()">
+        <i class="fa fa-download"></i> Télécharger </a>
+    </div>      
+             

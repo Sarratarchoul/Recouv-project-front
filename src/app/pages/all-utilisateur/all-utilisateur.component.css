@@ -1,0 +1,31 @@
+.mode{
+  padding:4px 10px;
+  line-height: 15px;
+  color:#fff;
+  font-weight: 400;
+  border-radius: 1rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+  font-size:13px;
+  letter-spacing: 0.5px;
+}
+.mode_on{
+    background-color: #db8c0d;
+
+}
+
+.dot {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-red {
+    background-color: red;
+  }
+  .dot-green {
+    background-color: green;
+  }
+  

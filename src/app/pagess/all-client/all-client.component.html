@@ -1,0 +1,267 @@
+<h1 style="text-align: center"><strong>Liste des clients</strong></h1><br>  
+<div class="container" *ngIf="flag">
+  <input (change)="selectFile($event)" type="file" />
+<button (click)="uploadFile()" class="btn" mat-raised-button color="primary"><i class="fa fa-upload"></i>Importer</button>
+</div>
+<div class="container" *ngIf="!flag">
+<h2>Veuillez attendre....</h2>
+<h2>Le téléchargement..</h2>
+</div>
+<nb-card>
+  <nb-card-body>
+<div class="panel panel-default">  
+    <div class="panel-heading">   
+        <div class="row" [hidden]="!deleteMessage">  
+               
+                  <div class="col-sm-4"></div>  
+                  <div class="col-sm-4">  
+                          <div class="alert alert-info alert-dismissible">  
+                                  <button type="button" class="close" data-dismiss="alert">×</button>  
+                                  <strong>Client Supprimé</strong>  
+                          </div>  
+                  </div>  
+                  <div class="col-sm-4"></div>  
+          </div>             
+      </div>  
+      
+    <div class="panel-body">  
+        <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  
+        [dtTrigger]="dtTriggerc"  >  
+            <thead class="thead-light">  
+                <tr>  
+                    <th>Code</th>
+                    <th>Nom</th>
+                    <th>Groupe</th>
+                    <th>Adresse</th> 
+                    <th>Email</th>
+                    <th>Téléphone</th> 
+                    <th>Moyen de paiement</th>
+                    <th>Sénario de relance</th>  
+                    <th>Profil payeur</th>  
+                    <th>Personne contact</th>  
+                    <th>Action</th> 
+                </tr>  
+            </thead>  
+            <tbody>  
+                 <tr *ngFor="let client of clients">  
+                    <td><span class ="blue"><a (click)="onGetRelancesClient(client.code_client)" class="clickable" data-toggle="modal" data-target="#getRelancesClient">{{client.code_client}}</a></span></td>  
+                    <td>{{client.nom_client}}</td> 
+                    <td>{{client.nom_groupe}}</td>  
+                    <td>{{client.adresse_client}}</td> 
+                    <td>{{client.email}}</td> 
+                    <td>{{client.numTel}}</td> 
+                    <td>{{client.moyen_de_paiement}}</td> 
+                    <td>{{client.senario_relance}}</td>  
+<td [ngClass]="{
+  'bon' : client.profil_payeur == 'Bon payeur',
+  'mauvais' : client.profil_payeur == 'Mauvais payeur',
+  'correct' : client.profil_payeur == 'Payeur correct',
+  'retards' : client.profil_payeur == 'Retards inadmissibles',
+  'tres' : client.profil_payeur == 'Très bon payeur'
+}" ><strong> {{client.profil_payeur}} </strong></td>
+                    <td>{{client.personne_contact}}</td>  
+                       
+                    <td><button (click)="deleteClient(client.code_client)" class='btn btn-danger' ><i class="fa fa-trash fa-lg"></i></button>   
+                      <button (click)="editClient(client)" class='btn btn-primary'   data-toggle="modal" data-target="#editClient"><i class="fa fa-pencil fa-lg">
+
+                      </i> </button>  
+                    </td>  
+                  </tr>   
+            </tbody><br>  
+        </table>  
+    </div>  
+  </div>   
+    <!-- Relances client modal -->
+  <div class="modal fade bd-example-modal-xl" id="getRelancesClient"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+      <div class="modal-content ">
+        <div class="modal-header">
+          <h1 class="modal-title" id="exampleModalLabel"><strong>Détail Client</strong></h1>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="clientss">
+            <div class="form-group row col-md-12">
+              <div class="col-md-6 form-group"> 
+              <label><b>Nom: </b></label> <li>{{clientss.nom_client}}</li>
+            </div>
+            <div class="col-md-6 form-group"> 
+              <label><b>Senario relance: </b></label> <li>{{clientss.senario_relance}}</li>
+            </div>
+            <div class="col-md-6 form-group"> 
+              <label><b>Adresse: </b></label> <li>{{clientss.adresse_client}}</li>
+            </div> 
+            <div class="col-md-6 form-group"> 
+              <label><b>Email: </b></label> <li>{{clientss.email}}</li>
+            </div>
+            <div class="col-md-6 form-group"> 
+              <label><b>Profil payeur: </b></label>  <li [ngClass]="{
+                'bon' : clientss.profil_payeur == 'Bon payeur',
+                'mauvais' : clientss.profil_payeur == 'Mauvais payeur',
+                'correct' : clientss.profil_payeur == 'Payeur correct',
+                'retards' : clientss.profil_payeur == 'Retards inadmissibles',
+                'tres' : clientss.profil_payeur == 'Très bon payeur'
+              }" ><strong>{{clientss.profil_payeur}}</strong></li>
+            </div>
+            <div class="col-md-6 form-group"> 
+              <label><b>N° téléphone: </b></label> <li>{{clientss.numTel}}</li>
+            </div> 
+            <div class="col-md-6 form-group"> 
+              <label><b>Personne contact: </b></label> <li>{{clientss.personne_contact}}</li>
+            </div>  
+            <div class="col-md-6 form-group"> 
+              <label><b>Groupe: </b></label> <li>{{clientss.nom_groupe}}</li>
+            </div> 
+            <div class="col-md-12 form-group"> 
+              <label><b>Moyen de paiement: </b></label> <li>{{clientss.moyen_de_paiement}}</li>
+            </div> 
+          </div>
+          </div>
+          <h2>Tableau de relances</h2>
+          <div class="panel-body">  
+            <table  class="table table-hover table-sm" datatable  [dtOptions]="dtOptions"  
+            [dtTrigger]="dtTriggerr">  
+                <thead class="thead-light">  
+                    <tr>  
+                        <th>Date de l'action</th>
+                        <th>Type d'action</th>
+                        <th>Action</th>  
+                        <th>Montant de l'action</th>     
+                    </tr>  
+                </thead>  
+                <tbody>  
+                     <tr *ngFor="let relance of relances">  
+                        <td>{{relance.date_action}}</td>  
+                        <td><span class="mode mode_of">{{relance.type_action}}</span></td>
+                        <td>{{relance.action}}</td>  
+                        <td>{{relance.montant_action | currency:'TND':'symbol':'0.0'}}</td>     
+                      </tr>   
+                </tbody><br>  
+            </table>  
+         </div> 
+         <h2>Tableau de factures</h2>
+         <div class="panel-body">  
+          <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  
+          [dtTrigger]="dtTriggerf">  
+              <thead class="thead-light">  
+                  <tr>  
+                      <th>N° Facture</th>
+                      <th>Date émission</th>
+                      <th>Date échéance</th> 
+                      <th>Retards</th> 
+                      <th>Montant initial</th>  
+                      <th>Montant restant</th> 
+                      <th>Statut</th> 
+                  </tr>  
+              </thead>  
+              <tbody>  
+                   <tr *ngFor="let facture of factures">  
+                      <td>{{facture.num_facture}}</td>  
+                      <td>{{facture.date_emission}}</td>  
+                      <td>{{facture.date_echeance}}</td>
+                      <td class="mode" [ngClass]="{
+                        'mode_on' : facture.retards >= 0,
+                        'mode_onn' : facture.retards <0   
+                      }" >{{facture.retards}}j<!-- <span class="mode mode_on">{{calculateDiff(facture.date_echeance)}}j</span>--></td>
+                      <td>{{facture.montant_initial | currency:'TND':'symbol':'0.0'}}</td>  
+                      <td>{{facture.montant_restant | currency:'TND':'symbol':'0.0'}}</td>  
+                      <td>{{facture.status}}</td>  
+                    </tr>   
+              </tbody><br>  
+          </table>  
+      </div>   
+       </div>   
+
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit client modal -->
+  <div class="modal fade" id="editClient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Modifier le client</h2>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="cliDetail">
+              <div class="form-group row col-md-12">
+                <div class="col-md-6 form-group">
+                <label for="exampleInputEmail1" class="form-label">Nom </label>
+                <input type="text" formControlName="nom_client" nbInput fullWidth status="info" class="form-control" id="nom_client" aria-describedby="emailHelp">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="exampleInputEmail1" class="form-label">Senario relance </label>  
+                  <select class="form-control" formControlName="senario_relance" required>                                     
+                    <option value="Client Publics" [selected]="'Client Publics' == client.senario_relance">Client Publics</option>  
+                    <option value="Client Risqués" [selected]="'Client Risqués' == client.senario_relance">Client Risqués</option>  
+                    <option value="Modéles Actions Spécifiques" [selected]="'Modéles Actions Spécifiques' == client.senario_relance">Modéles Actions Spécifiques</option> 
+                    <option value="Scénario De Relance Standard" [selected]="'Scénario De Relance Standard' == client.senario_relance" >Scénario De Relance Standard</option>    
+                  </select>                                 
+            </div>  
+            <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Adresse </label>
+                    <input type="text" formControlName="adresse_client" nbInput fullWidth status="info" class="form-control" id="adresse_client" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Email </label>
+                    <input type="text" formControlName="email" class="form-control" nbInput fullWidth status="info" id="email" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-md-6 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Profil payeur </label>  
+                  <select class="form-control" formControlName="profil_payeur" required>                                     
+                    <option value="Très bon payeur" [selected]="'Très bon payeur' == client.profil_payeur">Très bon payeur</option>  
+                    <option value="Bon payeur" [selected]="'Bon payeur' == client.profil_payeur">Bon payeur</option>  
+                    <option value="Payeur correct" [selected]="'Payeur correct' == client.profil_payeur">Payeurs correct</option> 
+                    <option value="Mauvais payeur" [selected]="'Mauvais payeur' == client.profil_payeur" >Mauvais payeur</option>    
+                    <option value="Retards inadmissibles" [selected]="'Retards inadmissibles' == client.profil_payeur" >Retards inadmissibles</option>    
+                  </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Téléphone </label>
+                    <input type="text" formControlName="numTel" nbInput fullWidth status="info" class="form-control" id="numTel" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Personne contact via l'entreprise </label>
+                    <select class="form-control" formControlName="personne_contact" required>                                     
+                      <option value="ADMINISTRATEUR" [selected]="'ADMINISTRATEUR' == client.personne_contact">ADMINISTRATEUR</option>  
+                      <option value="COMMERCIAL" [selected]="'COMMERCIAL' == client.personne_contact">COMMERCIAL</option>  
+                      <option value="CHARGE RECOUVREMENT" [selected]="'CHARGE RECOUVREMENT' == client.personne_contact">CHARGE RECOUVREMENT</option> 
+                      <option value="CREDIT MANAGER" [selected]="'CREDIT MANAGER' == client.personne_contact" >CREDIT MANAGER</option>    
+                    </select>
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Nom groupe </label>
+                    <input type="text" formControlName="nom_groupe" nbInput fullWidth status="info" class="form-control" id="nom_groupe" aria-describedby="emailHelp">
+                  </div>
+                  <div class="col-md-12 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Moyen de paiement </label>
+                    <select class="form-control" formControlName="moyen_de_paiement" required>                                     
+                      <option value="Chèque" [selected]="'Chèque' == client.moyen_de_paiement">Chèque</option>  
+                      <option value="Carte bancaire" [selected]="'Carte bancaire' == client.moyen_de_paiement">Carte bancaire</option>  
+                      <option value="Carte VISA" [selected]="'Carte VISA' == client.moyen_de_paiement">Carte VISA</option>  
+                      <option value="Carte Mastercard" [selected]="'Carte Mastercard' == client.moyen_de_paiement">Carte Mastercard</option>  
+                      <option value="Espèce" [selected]="'Espèce' == client.moyen_de_paiement">Espèce</option> 
+                      </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="updateClient()" data-dismiss="modal">Mise à jour</button>
+                  </div>
+              
+              </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+      </nb-card-body>
+    </nb-card>
+    <div class="container" >
+      <a class="btn btn-success text-white" (click)="exporToExcel()">
+        <i class="fa fa-download"></i> Télécharger </a>
+    </div>

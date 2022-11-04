@@ -1,0 +1,57 @@
+ <div class="mat-elevation-z8 small-table">
+      <table mat-table class="full-width-table" matSort aria-label="Elements">
+     <ng-container matColumnDef="code_client">
+       <th mat-header-cell *matHeaderCellDef mat-sort-header>Code client</th>
+       <td mat-cell *matCellDef="let row">{{row.code_client}}</td>
+     </ng-container>
+     <ng-container matColumnDef="ecours_creance">
+       <th mat-header-cell *matHeaderCellDef mat-sort-header>Encours de créances</th>
+       <td mat-cell *matCellDef="let row">{{row.ecours_creance | currency:'TND':'symbol':'0.0'}}k</td>
+     </ng-container>
+ <ng-container matColumnDef="ecours_total">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Encours total</th>
+  <td mat-cell *matCellDef="let row">{{row.ecours_total | currency:'TND':'symbol':'0.0'}}k</td>
+</ng-container>
+     <ng-container matColumnDef="retard">
+       <th mat-header-cell *matHeaderCellDef mat-sort-header>Retards</th>
+       <td mat-cell *matCellDef="let row">{{row.retard | currency:'TND':'symbol':'0.0'}}k</td>
+     </ng-container>
+     <ng-container matColumnDef="tauxR">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Taux de retard</th>
+      <td mat-cell *matCellDef="let row">{{row.tauxR | number: '1.0-0'}}%</td>
+    </ng-container>
+    <ng-container matColumnDef="garantie_assureur">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Garantie assureur</th>
+      <td mat-cell *matCellDef="let row">{{row.garantie_assureur | currency:'TND':'symbol':'0.0'}}k</td>
+    </ng-container>
+    <ng-container matColumnDef="autres_garanties">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Autres garanties</th>
+      <td mat-cell *matCellDef="let row">{{row.autres_garanties | currency:'TND':'symbol':'0.0'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="risque_actuel">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Risque actuel</th>
+      <td mat-cell *matCellDef="let row">{{row.risque_actuel | currency:'TND':'symbol':'0.0'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="risque_actuel_pourcent">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Risque actuel %</th>
+      <td mat-cell *matCellDef="let row">{{row.risque_actuel_pourcent| number: '1.0-0'}}%</td>
+    </ng-container>
+    <ng-container matColumnDef="risque">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Risque</th>
+      <td mat-cell *matCellDef="let row">{{row.risque | currency:'TND':'symbol':'0.0'}}k</td>
+    </ng-container>
+    <ng-container matColumnDef="limite_credit">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Limite de crédit</th>
+      <td mat-cell *matCellDef="let row">{{row.limite_credit | currency:'TND':'symbol':'0.0'}}k</td>
+    </ng-container>
+    <ng-container matColumnDef="encours_disponible">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Encours disponible</th>
+      <td mat-cell *matCellDef="let row">{{row.encours_disponible | currency:'TND':'symbol':'0.0'}}k</td>
+    </ng-container>
+     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+   </table>
+ 
+   <mat-paginator #paginator [length]="dataLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+   </mat-paginator>
+ </div>
